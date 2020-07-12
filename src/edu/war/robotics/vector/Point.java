@@ -26,6 +26,28 @@ public class Point {
         return Math.sqrt(xSquared + ySquared);
     }
 
+    public String getQuadrant() {
+        String result = null;
+
+        if (x > 0 && y > 0) {
+            result = "Q1";      // Finds Q1 if no then goes through others
+        } else if (x < 0 && y > 0) {
+            result = "Q2";
+        } else if (x < 0 && y < 0) {
+            result = "Q3";
+        } else if (x > 0 && y < 0) {
+            result = "Q4";
+        } else if (x != 0 && y == 0 ) {
+            result = "x-axis";
+        } else if (x == 0 && y != 0) {
+            result = "y-axis";
+        } else if (x == 0 && y == 0) {
+            result = "Origin";
+        }
+
+        return result;
+    }
+
     @Override
     public String toString() {
         return "Point{" +

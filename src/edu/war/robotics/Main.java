@@ -10,5 +10,8 @@ public class Main {
         System.out.println("Point: " + p2);
         System.out.println("P1 Distance from origin: " +p1.distanceFromOrigin());
         System.out.println("P2 Distance from origin: " +p2.distanceFromOrigin());
+        String p1Quadrant = p1.getQuadrant();
+        String p2Quadrant = p2.getQuadrant();
+        System.out.println("Point 1 in Quadrant: " + p1Quadrant + " Point 2 in Quadrant: " + p2Quadrant);
     }
 }
