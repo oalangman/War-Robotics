@@ -1,5 +1,6 @@
 package edu.war.robotics;
 
+import edu.war.robotics.vector.Line;
 import edu.war.robotics.vector.Point;
 
 public class Main {
@@ -13,5 +14,11 @@ public class Main {
         String p1Quadrant = p1.getQuadrant();
         String p2Quadrant = p2.getQuadrant();
         System.out.println("Point 1 in Quadrant: " + p1Quadrant + " Point 2 in Quadrant: " + p2Quadrant);
+        //(-4,1) and (8,7).
+        Line snake = new Line(new Point(3,3), new Point(0,0));
+        Point[] segments = snake.getSegments(3);
+        for ( Point segment : segments) {
+            System.out.println(segment);
+        }
     }
 }
