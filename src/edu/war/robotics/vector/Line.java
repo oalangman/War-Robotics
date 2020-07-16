@@ -7,9 +7,9 @@ public class Line {
     private Line() {
     }
 
-    public Line(Point head, Point tail) {
-        this.head = head;
+    public Line(Point tail, Point head) {
         this.tail = tail;
+        this.head = head;
     }
 
      public Point[] getSegments(int numberSegments){
