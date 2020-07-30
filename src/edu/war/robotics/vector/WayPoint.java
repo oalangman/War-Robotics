@@ -1,5 +1,7 @@
 package edu.war.robotics.vector;
 
+import java.util.Objects;
+
 class WayPoint {
     public Point point;
     private double deltaXFromPrevious;
@@ -7,8 +9,21 @@ class WayPoint {
     private double distanceFromPrevious;
     private double distanceFromStart;
 
+
+    public Point getPoint() {
+        return point;
+    }
+
+    public double getDistanceFromStart() {
+        return distanceFromStart;
+    }
+
     public double getDistanceFromPrevious() {
         return distanceFromPrevious;
+    }
+
+    public void setDeltaXFromPrevious(double deltaXFromPrevious) {
+        this.deltaXFromPrevious = deltaXFromPrevious;
     }
 
     public WayPoint(Point point, double deltaXFromPrevious, double deltaYFromPrevious, double distanceFromPrevious, double distanceFromStart) {
@@ -35,11 +50,24 @@ class WayPoint {
      *
      * param current The source point to compare to the WayPoint
      */
-    private double componentAlongPath(Point robotPosition) {
+    public double componentAlongPath(Point robotPosition) {
         double deltaXFromCurrent = point.getX() - robotPosition.getX();
         double deltaYFromCurrent = point.getY() - robotPosition.getY();
 
         double dp = deltaXFromCurrent * deltaXFromPrevious + deltaYFromCurrent * deltaYFromPrevious;
         return dp / distanceFromPrevious;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        WayPoint wayPoint = (WayPoint) o;
+        return point.equals(wayPoint.point);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(point);
     }
 }

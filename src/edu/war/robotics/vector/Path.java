@@ -58,46 +58,55 @@ public class Path {
         return new Path(wayPoints);
     }
 
-    private void validatePoints( Point[] rawPoints) throws IllegalArgumentException {
-
-    }
-
     /**
      * @return total distance along the path
      */
     public double totalDistance() {
-        return 0.0;
+        return totalDistance;
     }
     /**
      * @return a point at the supplied distance along the path from the supplied robot position
      * Note that the point will usually be interpolated between the points that originally defined the Path
      */
     public WayPoint getTargetPoint(Point robotPosition, double lookAheadDistance) {
-//        return new TargetPoint(current, 0, 0);
-        return null;
+        Distance distanceToWayPoint = new Distance();
+        WayPoint firstWayPoint = getClosestWayPoint (robotPosition, distanceToWayPoint);
+        WayPoint lastWayPoint = getEndWayPoint (firstWayPoint, distanceToWayPoint.length, lookAheadDistance);
+        Line segment = new Line(firstWayPoint.getPoint(), lastWayPoint.getPoint());
+        Point[] points = segment.getSegments(2);
+        Point targetPoint = points[1];
+        Point deltaPoint = targetPoint.getPointDelta( points[0] );
+        double distance = targetPoint.getDistance(points[0]);
+        return new WayPoint(targetPoint, deltaPoint.getX(), deltaPoint.getY(), distance, distance);
     }
 
-//    List<TargetPoint> getPoints() {
-//        return new ArrayList<>();
-//    }
+    private WayPoint getClosestWayPoint(Point robotPosition, Distance distanceToWayPoint) {
+        WayPoint closestWayPoint = null;
+        for ( WayPoint wayPoint : this.wayPoints ) {
+            distanceToWayPoint.length = wayPoint.componentAlongPath(robotPosition);
+            if (distanceToWayPoint.length > 0 ) {
+                closestWayPoint = wayPoint;
+                break;
+            }
+        }
+        return closestWayPoint;
+    }
 
-//    public static class TargetPoint {
-//        public Point point;
-//        public double distanceFromStart;
-//        public double distanceToEnd;
-//
-//        private TargetPoint(Point point, double distanceFromStart, double distanceToEnd) {
-//            this.point = point;
-//            this.distanceFromStart = distanceFromStart;
-//            this.distanceToEnd = distanceToEnd;
-//        }
-//
-//        private TargetPoint(WayPoint wayPoint) {
-//            this.point = wayPoint.point;
-//            this.distanceFromStart = wayPoint.distanceFromStart;
-//            this.distanceToEnd = wayPoint.getDistanceToEnd();
-//        }
-//    }
+    private WayPoint getEndWayPoint(WayPoint firstWayPoint, double distanceToClosestWayPoint, double lookAheadDistance) {
+        WayPoint endWayPoint = null;
+        double distanceFromCurrent = distanceToClosestWayPoint;
+        WayPoint[] wayPointArray = (WayPoint[]) wayPoints.toArray();
+        for (int i = wayPoints.indexOf(firstWayPoint)+1 ; i < wayPointArray.length; i++) {
+            distanceFromCurrent += wayPointArray[i].getDistanceFromPrevious();
+            if (distanceFromCurrent > lookAheadDistance ) {
+                endWayPoint = wayPointArray[i];
+                break;
+            }
+        }
+        return endWayPoint;
+    }
+
+    private class Distance {
+        public double length = 0.0;
+    }
 }
-
-
