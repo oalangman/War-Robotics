@@ -7,6 +7,9 @@ public class Path {
     private List<WayPoint> wayPoints = new ArrayList<>();
     private double totalDistance = 0.0;
 
+    public List<WayPoint> getWayPoints() {
+        return wayPoints;
+    }
 
     /**
      * Adding private default constructure to ensure that this class isn't initialized without
@@ -95,7 +98,9 @@ public class Path {
     private WayPoint getEndWayPoint(WayPoint firstWayPoint, double distanceToClosestWayPoint, double lookAheadDistance) {
         WayPoint endWayPoint = null;
         double distanceFromCurrent = distanceToClosestWayPoint;
-        WayPoint[] wayPointArray = (WayPoint[]) wayPoints.toArray();
+//        WayPoint[] wayPointArray = (WayPoint[]) wayPoints.toArray();
+        WayPoint[] wayPointArray = new WayPoint[wayPoints.size()];
+        wayPoints.toArray(wayPointArray);
         for (int i = wayPoints.indexOf(firstWayPoint)+1 ; i < wayPointArray.length; i++) {
             distanceFromCurrent += wayPointArray[i].getDistanceFromPrevious();
             if (distanceFromCurrent > lookAheadDistance ) {

@@ -9,11 +9,22 @@ import static org.junit.jupiter.api.Assertions.*;
 class PathTest {
 
     @Test
+    public void testRobotPathFinding() {
+        Point[] points = new Point[]{new Point(0, 1), new Point(2, 1), new Point(4, 1), new Point(6, 1)};
+        Point robotPosition = new Point(1, 0);
+        Path squiggles =  Path.createPath(points);
+        System.out.println("Course length: " + squiggles.totalDistance());
+        double lookAheadDistance = 4.0;
+        WayPoint targetPoint = squiggles.getTargetPoint(robotPosition, lookAheadDistance);
+        System.out.println("Target Point is: " + targetPoint);
+    }
+
+    @Test
     public void testDuplicatesRemoved() {
         // Make some points
         Point[] points = new Point[] {new Point(0,0), new Point(3,4), new Point(3,4), new Point(5,5)};
-       // Path path = new Path(points);
-
+        Path path = Path.createPath(points);
+        assertEquals(3, path.getWayPoints().size());
         // Check to make sure that you got rid of the duplicates
        // List<Path.TargetPoint> results = path.getPoints();
         // Your code here!
@@ -49,17 +60,16 @@ class PathTest {
     @Test
     public void testTotalDistance() {
         Point[] points = new Point[] {new Point(0,0), new Point(3,4)};
-        //Path path = new Path(points);
-        //assertEquals(5, path.totalDistance(), 0.00001);
+        Path path = Path.createPath(points);
+        assertEquals(5, path.totalDistance(), 0.00001);
     }
 
 
     @Test
     void createPath() {
-    }
-
-    @Test
-    void totalDistance() {
+        Point[] points = new Point[] {new Point(0,0), new Point(3,4)};
+        Path path = Path.createPath(points);
+        assertEquals(2,path.getWayPoints().size());
     }
 
     @Test

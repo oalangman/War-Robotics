@@ -59,6 +59,17 @@ class WayPoint {
     }
 
     @Override
+    public String toString() {
+        return "WayPoint{" +
+                "point=" + point +
+                ", deltaXFromPrevious=" + deltaXFromPrevious +
+                ", deltaYFromPrevious=" + deltaYFromPrevious +
+                ", distanceFromPrevious=" + distanceFromPrevious +
+                ", distanceFromStart=" + distanceFromStart +
+                '}';
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
